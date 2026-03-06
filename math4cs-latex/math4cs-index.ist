@@ -1,0 +1,6 @@
+heading_prefix "\\n  \\indexspace\\n"
+heading_suffix "\\n"
+delim_0 "\\hspace{2.5em}"
+delim_1 "\\hspace{1em}"
+delim_2 "\\hspace{1.25em}"
+delim_r "\\,--\\,"

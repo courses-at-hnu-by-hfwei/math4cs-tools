@@ -1,0 +1,442 @@
+% math4cs-symbol-handbook-cn.tex
+
+\documentclass[11pt]{ctexart}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\usepackage{makeidx}
+\usepackage{array}
+\usepackage{etoolbox}
+\usepackage{xparse}
+
+\definecolor{DocRefColor}{RGB}{21,101,192}
+\definecolor{TocLinkColor}{RGB}{94,53,177}
+\definecolor{IndexLinkColor}{RGB}{216,67,21}
+\definecolor{UrlLinkColor}{RGB}{0,121,107}
+\definecolor{CiteLinkColor}{RGB}{46,125,50}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=DocRefColor,
+  citecolor=CiteLinkColor,
+  urlcolor=UrlLinkColor,
+  filecolor=UrlLinkColor,
+  pdfborder={0 0 0}
+}
+
+\makeindex
+
+% 自动索引宏
+% 用法1：\syms{$\forall$}{\verb|\forall|}[全称量词]
+% 用法2：\syms{$\forall$}{全称量词}
+% 若省略第三参数，则第二参数同时作为索引键
+% 若省略第四参数，则第一参数同时作为索引显示内容
+\NewDocumentCommand{\syms}{m m o o}{%
+  #1%
+  \IfNoValueTF{#3}
+    {\IfNoValueTF{#4}
+      {\index{#2@\unexpanded{#1}}}
+      {\index{#2@\unexpanded{#4}}}}
+    {\IfNoValueTF{#4}
+      {\index{#3@\unexpanded{#1}}}
+      {\index{#3@\unexpanded{#4}}}}%
+}
+
+\pretocmd{\section}{\clearpage}{}{}
+
+\DeclareRobustCommand{\idxexistsunique}{\ensuremath{\exists!}}
+\DeclareRobustCommand{\idximplies}{\ensuremath{\implies}}
+\DeclareRobustCommand{\idxiff}{\ensuremath{\iff}}
+\DeclareRobustCommand{\idxcardA}{\ensuremath{\lvert A\rvert}}
+\DeclareRobustCommand{\idxrestriction}{\ensuremath{f\vert_A}}
+\DeclareRobustCommand{\idxgrouporder}{\ensuremath{\lvert G\rvert}}
+\DeclareRobustCommand{\idxfactorial}{\ensuremath{n!}}
+\DeclareRobustCommand{\idxsum}{\ensuremath{\sum}}
+\DeclareRobustCommand{\idxprod}{\ensuremath{\prod}}
+\DeclareRobustCommand{\idxint}{\ensuremath{\int}}
+\DeclareRobustCommand{\idxiint}{\ensuremath{\iint}}
+\DeclareRobustCommand{\idxiiint}{\ensuremath{\iiint}}
+\DeclareRobustCommand{\idxoint}{\ensuremath{\oint}}
+\DeclareRobustCommand{\idxnorm}{\ensuremath{\lVert x\rVert}}
+
+\let\originalhyperpage\hyperpage
+\renewcommand*{\hyperpage}[1]{\textcolor{IndexLinkColor}{\originalhyperpage{#1}}}
+
+\newcommand{\tocitem}[2]{%
+  \noindent{\color{TocLinkColor}\hyperref[#1]{#2}}\dotfill{\color{TocLinkColor}\pageref{#1}}\par
+}
+
+\title{计算机数学 (math4cs)\\ \LaTeX\ 符号手册}
+\author{hfwei (蚂蚁蚂蚁)}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section*{目录}
+\tocitem{sec:prop-logic}{1\quad 命题逻辑}
+\tocitem{sec:fopl}{2\quad 一阶谓词逻辑}
+\tocitem{sec:sets}{3\quad 集合论}
+\tocitem{sec:relations}{4\quad 关系（Relation）}
+\tocitem{sec:posets}{5\quad 偏序}
+\tocitem{sec:functions}{6\quad 函数}
+\tocitem{sec:comparisons}{7\quad 关系（大小比较）}
+\tocitem{sec:graphs}{8\quad 图论}
+\tocitem{sec:groups}{9\quad 群论}
+\tocitem{sec:combinatorics}{10\quad 组合数学}
+\tocitem{sec:number-theory}{11\quad 数论}
+\tocitem{sec:calculus}{12\quad 微积分}
+\tocitem{sec:linear-algebra}{13\quad 线性代数}
+\tocitem{sec:complexity}{14\quad 算法复杂度}
+\tocitem{sec:fonts}{15\quad 常用数学字体}
+
+\section*{说明}
+
+本手册汇总《计算机数学 (math4cs)》课程常用数学符号。  
+每个条目包含四列：
+
+\begin{itemize}
+\item 符号
+\item LaTeX命令
+\item English Meaning
+\item 中文含义
+\end{itemize}
+
+文档末尾提供索引，方便学生查找。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{命题逻辑}\label{sec:prop-logic}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\lnot$}{\verb|\lnot|}[否定] & \verb|\lnot| & negation & 否定 \\
+\syms{$\neg$}{\verb|\neg|}[否定] & \verb|\neg| & negation & 否定 \\
+\syms{$\land$}{\verb|\land|}[合取] & \verb|\land| & conjunction & 合取 \\
+\syms{$\lor$}{\verb|\lor|}[析取] & \verb|\lor| & disjunction & 析取 \\
+\syms{$\oplus$}{\verb|\oplus|}[异或] & \verb|\oplus| & xor & 异或 \\
+\syms{$\to$}{\verb|\to|}[蕴含] & \verb|\to| & implication & 蕴含 \\
+\syms{$\Rightarrow$}{\verb|\Rightarrow|}[推出] & \verb|\Rightarrow| & implies & 推出 \\
+\syms{$\leftrightarrow$}{\verb|\leftrightarrow|}[等价] & \verb|\leftrightarrow| & iff & 等价 \\
+\syms{$\Leftrightarrow$}{\verb|\Leftrightarrow|}[逻辑等价] & \verb|\Leftrightarrow| & logical equivalence & 逻辑等价 \\
+\syms{$\therefore$}{\verb|\therefore|}[因此] & \verb|\therefore| & therefore & 因此 \\
+\syms{$\because$}{\verb|\because|}[因为] & \verb|\because| & because & 因为 \\
+\syms{$\vdash$}{\verb|\vdash|}[语法推出] & \verb|\vdash| & syntactic entailment & 语法推出 \\
+\syms{$\models$}{\verb|\models|}[语义推出] & \verb|\models| & semantic entailment & 语义推出 \\
+\syms{$\top$}{\verb|\top|}[真] & \verb|\top| & true & 真 \\
+\syms{$\bot$}{\verb|\bot|}[假] & \verb|\bot| & false & 假 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{一阶谓词逻辑}\label{sec:fopl}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\forall$}{\verb|\forall|}[全称量词] & \verb|\forall| & for all & 全称量词 \\
+\syms{$\exists$}{\verb|\exists|}[存在量词] & \verb|\exists| & exists & 存在量词 \\
+\syms{$\exists!$}{\verb|\exists!|}[唯一存在][\idxexistsunique] & \verb|\exists!| & unique existence & 唯一存在 \\
+\syms{$\nexists$}{\verb|\nexists|}[不存在] & \verb|\nexists| & not exists & 不存在 \\
+\syms{$=$}{=}[等于] & = & equality & 等于 \\
+\syms{$\neq$}{\verb|\neq|}[不等] & \verb|\neq| & not equal & 不等 \\
+\syms{$\triangleq$}{\verb|\triangleq|}[定义] & \verb|\triangleq| & defined as & 定义 \\
+\syms{$:$}{:}[使得] & : & such that & 使得 \\
+\syms{$\mid$}{\verb|\mid|}[满足] & \verb|\mid| & such that / divides & 满足 / 整除 \\
+\syms{$\implies$}{\verb|\implies|}[蕴含][\idximplies] & \verb|\implies| & implies & 蕴含 \\
+\syms{$\iff$}{\verb|\iff|}[当且仅当][\idxiff] & \verb|\iff| & iff & 当且仅当 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{集合论}\label{sec:sets}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\in$}{\verb|\in|}[属于] & \verb|\in| & element of & 属于 \\
+\syms{$\notin$}{\verb|\notin|}[不属于] & \verb|\notin| & not element of & 不属于 \\
+\syms{$\subset$}{\verb|\subset|}[真子集] & \verb|\subset| & proper subset & 真子集 \\
+\syms{$\subseteq$}{\verb|\subseteq|}[子集] & \verb|\subseteq| & subseteq & 子集 \\
+\syms{$\supset$}{\verb|\supset|}[真超集] & \verb|\supset| & proper superset & 真超集 \\
+\syms{$\supseteq$}{\verb|\supseteq|}[超集] & \verb|\supseteq| & superseteq & 超集 \\
+\syms{$\cup$}{\verb|\cup|}[并集] & \verb|\cup| & union & 并集 \\
+\syms{$\cap$}{\verb|\cap|}[交集] & \verb|\cap| & intersection & 交集 \\
+\syms{$\setminus$}{\verb|\setminus|}[差集] & \verb|\setminus| & set difference & 差集 \\
+\syms{$\triangle$}{\verb|\triangle|}[对称差] & \verb|\triangle| & symmetric difference & 对称差 \\
+\syms{$\varnothing$}{\verb|\varnothing|}[空集] & \verb|\varnothing| & empty set & 空集 \\
+\syms{$\mathcal P(A)$}{\verb|\mathcal{P}(A)|}[幂集] & \verb|\mathcal{P}(A)| & power set & 幂集 \\
+\syms{$|A|$}{|A|}[基数][\idxcardA] & |A| & cardinality & 基数 \\
+\syms{$A\times B$}{\verb|\times|}[笛卡尔积] & \verb|\times| & cartesian product & 笛卡尔积 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{关系（Relation）}\label{sec:relations}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$R\subseteq A\times B$}{text}[关系] & text & relation & 关系 \\
+\syms{$(a,b)\in R$}{text}[有序对属于关系] & text & pair in relation & 有序对属于关系 \\
+\syms{$R^{-1}$}{\verb|^{-1}|}[逆关系] & \verb|^{-1}| & inverse relation & 逆关系 \\
+\syms{$R\circ S$}{\verb|\circ|}[关系复合] & \verb|\circ| & relation composition & 关系复合 \\
+\syms{$\sim$}{\verb|\sim|}[等价关系] & \verb|\sim| & equivalence relation & 等价关系 \\
+\syms{$\equiv$}{\verb|\equiv|}[等价] & \verb|\equiv| & equivalence & 等价 \\
+\syms{$\rho$}{\verb|\rho|}[自反关系] & \verb|\rho| & reflexive relation & 自反关系 \\
+\syms{$\sigma$}{\verb|\sigma|}[对称关系] & \verb|\sigma| & symmetric relation & 对称关系 \\
+\syms{$\tau$}{\verb|\tau|}[传递关系] & \verb|\tau| & transitive relation & 传递关系 \\
+\syms{$id_A$}{id\_A}[恒等关系] & id\_A & identity relation & 恒等关系 \\
+\syms{$[a]_R$}{[a]\_R}[等价类] & [a]\_R & equivalence class & 等价类 \\
+\syms{$A/R$}{A/R}[商集] & A/R & quotient set & 商集 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{偏序}\label{sec:posets}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\preceq$}{\verb|\preceq|}[偏序小于等于] & \verb|\preceq| & partial order & 偏序$\le$ \\
+\syms{$\prec$}{\verb|\prec|}[偏序<] & \verb|\prec| & strict partial order & 偏序< \\
+\syms{$\succeq$}{\verb|\succeq|}[偏序大于等于] & \verb|\succeq| & partial order & 偏序$\ge$ \\
+\syms{$\succ$}{\verb|\succ|}[偏序>] & \verb|\succ| & strict partial order & 偏序> \\
+\syms{$\vee$}{\verb|\vee|}[上确界] & \verb|\vee| & join & 上确界 \\
+\syms{$\wedge$}{\verb|\wedge|}[下确界] & \verb|\wedge| & meet & 下确界 \\
+\syms{$\max$}{\verb|\max|}[极大元] & \verb|\max| & maximum & 极大元 / 最大值 \\
+\syms{$\min$}{\verb|\min|}[极小元] & \verb|\min| & minimum & 极小元 / 最小值 \\
+\syms{$\sup$}{\verb|\sup|}[上确界] & \verb|\sup| & supremum & 上确界 \\
+\syms{$\inf$}{\verb|\inf|}[下确界] & \verb|\inf| & infimum & 下确界 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{函数}\label{sec:functions}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$f:A\to B$}{\verb|\to|}[函数] & \verb|\to| & function & 函数 \\
+\syms{$x\mapsto f(x)$}{\verb|\mapsto|}[映射] & \verb|\mapsto| & maps to & 映射 \\
+\syms{$f^{-1}$}{\verb|^{-1}|}[逆函数] & \verb|^{-1}| & inverse function & 逆函数 \\
+\syms{$f\circ g$}{\verb|\circ|}[复合函数] & \verb|\circ| & composition & 复合函数 \\
+\syms{$\mathrm{id}$}{\verb|\mathrm{id}|}[恒等函数] & \verb|\mathrm{id}| & identity & 恒等函数 \\
+\syms{$\operatorname{dom}(f)$}{\verb|\operatorname{dom}(f)|}[定义域] & \verb|\operatorname{dom}(f)| & domain & 定义域 \\
+\syms{$\operatorname{codom}(f)$}{\verb|\operatorname{codom}(f)|}[陪域] & \verb|\operatorname{codom}(f)| & codomain & 陪域 \\
+\syms{$\operatorname{im}(f)$}{\verb|\operatorname{im}(f)|}[像] & \verb|\operatorname{im}(f)| & image & 像 \\
+\syms{$\ker(f)$}{\verb|\ker|}[核] & \verb|\ker| & kernel & 核 \\
+\syms{$f|_A$}{\texttt{f|\_A}}[限制][\idxrestriction] & \texttt{f|\_A} & restriction & 限制 \\
+\syms{$A\hookrightarrow B$}{\verb|\hookrightarrow|}[单射] & \verb|\hookrightarrow| & injection & 单射 \\
+\syms{$A\twoheadrightarrow B$}{\verb|\twoheadrightarrow|}[满射] & \verb|\twoheadrightarrow| & surjection & 满射 \\
+\syms{$A\xrightarrow{\sim} B$}{\verb|\xrightarrow{\sim}|}[双射] & \verb|\xrightarrow{\sim}| & bijection & 双射 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{关系（大小比较）}\label{sec:comparisons}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$<$}{<}[小于] & < & less than & 小于 \\
+\syms{$\le$}{\verb|\le|}[小于等于] & \verb|\le| & less or equal & 小于等于 \\
+\syms{$>$}{>}[大于] & > & greater than & 大于 \\
+\syms{$\ge$}{\verb|\ge|}[大于等于] & \verb|\ge| & greater or equal & 大于等于 \\
+\syms{$\approx$}{\verb|\approx|}[约等于] & \verb|\approx| & approximately equal & 约等于 \\
+\syms{$\neq$}{\verb|\neq|}[不等于] & \verb|\neq| & not equal & 不等于 \\
+\syms{$\propto$}{\verb|\propto|}[成比例] & \verb|\propto| & proportional to & 成比例 \\
+\syms{$\cong$}{\verb|\cong|}[全等] & \verb|\cong| & congruent & 全等 \\
+\syms{$\simeq$}{\verb|\simeq|}[相似] & \verb|\simeq| & similar & 相似 \\
+\syms{$\parallel$}{\verb|\parallel|}[平行] & \verb|\parallel| & parallel & 平行 \\
+\syms{$\perp$}{\verb|\perp|}[垂直] & \verb|\perp| & perpendicular & 垂直 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{图论}\label{sec:graphs}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$G=(V,E)$}{text}[图] & text & graph & 图 \\
+\syms{$V$}{text}[顶点集] & text & vertex set & 顶点集 \\
+\syms{$E$}{text}[边集] & text & edge set & 边集 \\
+\syms{$u\sim v$}{\verb|\sim|}[邻接] & \verb|\sim| & adjacent & 邻接 \\
+\syms{$deg(v)$}{\verb|\deg|}[度] & \verb|\deg| & degree & 度 \\
+\syms{$\Delta(G)$}{\verb|\Delta|}[最大度] & \verb|\Delta| & maximum degree & 最大度 \\
+\syms{$\delta(G)$}{\verb|\delta|}[最小度] & \verb|\delta| & minimum degree & 最小度 \\
+\syms{$N(v)$}{text}[邻域] & text & neighborhood & 邻域 \\
+\syms{$dist(u,v)$}{text}[距离] & text & distance & 距离 \\
+\syms{$diam(G)$}{text}[直径] & text & diameter & 直径 \\
+\syms{$rad(G)$}{text}[半径] & text & radius & 半径 \\
+\syms{$K_n$}{text}[完全图] & text & complete graph & 完全图 \\
+\syms{$P_n$}{text}[路径图] & text & path graph & 路径图 \\
+\syms{$C_n$}{text}[环图] & text & cycle graph & 环图 \\
+\syms{$T$}{text}[树] & text & tree & 树 \\
+\syms{$\chi(G)$}{\verb|\chi|}[色数] & \verb|\chi| & chromatic number & 色数 \\
+\syms{$\omega(G)$}{\verb|\omega|}[团数] & \verb|\omega| & clique number & 团数 \\
+\syms{$\alpha(G)$}{\verb|\alpha|}[独立数] & \verb|\alpha| & independence number & 独立数 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{群论}\label{sec:groups}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$(G,*)$}{text}[群] & text & group & 群 \\
+\syms{$e$}{text}[单位元] & text & identity element & 单位元 \\
+\syms{$g^{-1}$}{\verb|^{-1}|}[逆元] & \verb|^{-1}| & inverse element & 逆元 \\
+\syms{$\langle g\rangle$}{\verb|\langle g\rangle|}[循环群] & \verb|\langle g\rangle| & cyclic group & 循环群 \\
+\syms{$H\le G$}{\verb|\le|}[子群] & \verb|\le| & subgroup & 子群 \\
+\syms{$H\trianglelefteq G$}{\verb|\trianglelefteq|}[正规子群] & \verb|\trianglelefteq| & normal subgroup & 正规子群 \\
+\syms{$G/H$}{text}[商群] & text & quotient group & 商群 \\
+\syms{$|G|$}{|G|}[群的阶][\idxgrouporder] & |G| & order of group & 群的阶 \\
+\syms{$ab$}{ab}[群运算] & ab & group operation & 群运算 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{组合数学}\label{sec:combinatorics}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$n!$}{!}[阶乘][\idxfactorial] & ! & factorial & 阶乘 \\
+\syms{$\binom{n}{k}$}{\verb|\binom|}[二项式系数] & \verb|\binom| & binomial coefficient & 二项式系数 \\
+\syms{$P(n,k)$}{P(n,k)}[排列数] & P(n,k) & permutation & 排列数 \\
+\syms{$C(n,k)$}{C(n,k)}[组合数] & C(n,k) & combination & 组合数 \\
+\syms{$\sum$}{\verb|\sum|}[求和][\idxsum] & \verb|\sum| & summation & 求和 \\
+\syms{$\prod$}{\verb|\prod|}[连乘][\idxprod] & \verb|\prod| & product & 连乘 \\
+\syms{$F_n$}{F\_n}[斐波那契数] & F\_n & Fibonacci number & 斐波那契数 \\
+\syms{$S(n,k)$}{S(n,k)}[Stirling数] & S(n,k) & Stirling number & Stirling数 \\
+\syms{$B_n$}{B\_n}[Bell数] & B\_n & Bell number & Bell数 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{数论}\label{sec:number-theory}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\mathbb N$}{\verb|\mathbb{N}|}[自然数] & \verb|\mathbb{N}| & natural numbers & 自然数 \\
+\syms{$\mathbb Z$}{\verb|\mathbb{Z}|}[整数] & \verb|\mathbb{Z}| & integers & 整数 \\
+\syms{$\mathbb Q$}{\verb|\mathbb{Q}|}[有理数] & \verb|\mathbb{Q}| & rationals & 有理数 \\
+\syms{$\mathbb R$}{\verb|\mathbb{R}|}[实数] & \verb|\mathbb{R}| & reals & 实数 \\
+\syms{$\mathbb C$}{\verb|\mathbb{C}|}[复数] & \verb|\mathbb{C}| & complex numbers & 复数 \\
+\syms{$a\mid b$}{\verb|\mid|}[整除] & \verb|\mid| & divides & 整除 \\
+\syms{$a\nmid b$}{\verb|\nmid|}[不整除] & \verb|\nmid| & not divide & 不整除 \\
+\syms{$a\equiv b\pmod n$}{\verb|\pmod|}[同余] & \verb|\pmod| & congruence & 同余 \\
+\syms{$\gcd(a,b)$}{\verb|\gcd|}[最大公约数] & \verb|\gcd| & gcd & 最大公约数 \\
+\syms{$\mathrm{lcm}(a,b)$}{\verb|\mathrm{lcm}(a,b)|}[最小公倍数] & \verb|\mathrm{lcm}(a,b)| & least common multiple & 最小公倍数 \\
+\syms{$\lfloor x\rfloor$}{\verb|\lfloor x\rfloor|}[下取整] & \verb|\lfloor x\rfloor| & floor & 下取整 \\
+\syms{$\lceil x\rceil$}{\verb|\lceil x\rceil|}[上取整] & \verb|\lceil x\rceil| & ceiling & 上取整 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{微积分}\label{sec:calculus}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\lim$}{\verb|\lim|}[极限] & \verb|\lim| & limit & 极限 \\
+\syms{$\infty$}{\verb|\infty|}[无穷] & \verb|\infty| & infinity & 无穷 \\
+\syms{$\partial$}{\verb|\partial|}[偏导] & \verb|\partial| & partial derivative & 偏导 \\
+\syms{$\nabla$}{\verb|\nabla|}[梯度] & \verb|\nabla| & gradient & 梯度 \\
+\syms{$\int$}{\verb|\int|}[积分][\idxint] & \verb|\int| & integral & 积分 \\
+\syms{$\iint$}{\verb|\iint|}[二重积分][\idxiint] & \verb|\iint| & double integral & 二重积分 \\
+\syms{$\iiint$}{\verb|\iiint|}[三重积分][\idxiiint] & \verb|\iiint| & triple integral & 三重积分 \\
+\syms{$\oint$}{\verb|\oint|}[曲线积分][\idxoint] & \verb|\oint| & contour integral & 曲线积分 \\
+\syms{$\frac{dy}{dx}$}{\verb|\frac{dy}{dx}|}[导数] & \verb|\frac{dy}{dx}| & derivative & 导数 \\
+\syms{$\sin$}{\verb|\sin|}[正弦] & \verb|\sin| & sine & 正弦 \\
+\syms{$\cos$}{\verb|\cos|}[余弦] & \verb|\cos| & cosine & 余弦 \\
+\syms{$\tan$}{\verb|\tan|}[正切] & \verb|\tan| & tangent & 正切 \\
+\syms{$\exp$}{\verb|\exp|}[指数函数] & \verb|\exp| & exponential & 指数函数 \\
+\syms{$\log$}{\verb|\log|}[对数] & \verb|\log| & logarithm & 对数 \\
+\syms{$\ln$}{\verb|\ln|}[自然对数] & \verb|\ln| & natural logarithm & 自然对数 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{线性代数}\label{sec:linear-algebra}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\mathbf A$}{\verb|\mathbf{A}|}[矩阵] & \verb|\mathbf{A}| & matrix & 矩阵 \\
+\syms{$\mathbf x$}{\verb|\mathbf{x}|}[向量] & \verb|\mathbf{x}| & vector & 向量 \\
+\syms{$A^T$}{\texttt{A\^{}T}}[转置] & \texttt{A\^{}T} & transpose & 转置 \\
+\syms{$A^{-1}$}{\verb|A^{-1}|}[逆矩阵] & \verb|A^{-1}| & inverse matrix & 逆矩阵 \\
+\syms{$\det(A)$}{\verb|\det(A)|}[行列式] & \verb|\det(A)| & determinant & 行列式 \\
+\syms{$\operatorname{tr}(A)$}{\verb|\operatorname{tr}(A)|}[迹] & \verb|\operatorname{tr}(A)| & trace & 迹 \\
+\syms{$\operatorname{rank}(A)$}{\verb|\operatorname{rank}(A)|}[秩] & \verb|\operatorname{rank}(A)| & rank & 秩 \\
+\syms{$\lambda$}{\verb|\lambda|}[特征值] & \verb|\lambda| & eigenvalue & 特征值 \\
+\syms{$v$}{v}[特征向量] & v & eigenvector & 特征向量 \\
+\syms{$\ker(A)$}{\verb|\ker(A)|}[核空间] & \verb|\ker(A)| & kernel & 核空间 \\
+\syms{$\operatorname{span}(S)$}{\verb|\operatorname{span}(S)|}[张成] & \verb|\operatorname{span}(S)| & span & 张成 \\
+\syms{$\langle u,v\rangle$}{\verb|\langle u,v\rangle|}[内积] & \verb|\langle u,v\rangle| & inner product & 内积 \\
+\syms{$\|x\|$}{\texttt{\textbackslash|x\textbackslash|}}[范数][\idxnorm] & \texttt{\textbackslash|x\textbackslash|} & norm & 范数 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{算法复杂度}\label{sec:complexity}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$O(n)$}{O(n)}[大O] & O(n) & Big-O & 大O \\
+\syms{$\Theta(n)$}{\verb|\Theta(n)|}[Theta记号] & \verb|\Theta(n)| & Theta notation & Theta记号 \\
+\syms{$\Omega(n)$}{\verb|\Omega(n)|}[Omega记号] & \verb|\Omega(n)| & Omega notation & Omega记号 \\
+\syms{$o(n)$}{o(n)}[小o] & o(n) & little-o & 小o \\
+\syms{$\omega(n)$}{\verb|\omega(n)|}[小omega] & \verb|\omega(n)| & little-omega & 小omega \\
+\syms{$T(n)$}{T(n)}[运行时间] & T(n) & running time & 运行时间 \\
+\syms{$S(n)$}{S(n)}[空间复杂度] & S(n) & space complexity & 空间复杂度 \\
+\syms{$\log n$}{\verb|\log n|}[对数复杂度] & \verb|\log n| & logarithmic complexity & 对数复杂度 \\
+\syms{$n\log n$}{\texttt{n\textbackslash log n}}[线性对数复杂度] & \texttt{n\textbackslash log n} & linearithmic complexity & 线性对数复杂度 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{常用数学字体}\label{sec:fonts}
+
+\begin{longtable}{>{\centering\arraybackslash}m{2cm} m{3.5cm} m{4.5cm} m{4cm}}
+\toprule
+符号 & LaTeX & English & 中文 \\
+\midrule
+\syms{$\mathbb R$}{\verb|\mathbb{R}|}[黑板粗体] & \verb|\mathbb{R}| & blackboard bold & 黑板粗体 \\
+\syms{$\mathcal F$}{\verb|\mathcal{F}|}[花体] & \verb|\mathcal{F}| & calligraphic & 花体 \\
+\syms{$\mathfrak g$}{\verb|\mathfrak{g}|}[哥特体] & \verb|\mathfrak{g}| & fraktur & 哥特体 \\
+\syms{$\mathbf x$}{\verb|\mathbf{x}|}[粗体] & \verb|\mathbf{x}| & bold & 粗体 \\
+\syms{$\mathrm d$}{\verb|\mathrm{d}|}[正体] & \verb|\mathrm{d}| & roman & 正体 \\
+\syms{$\mathit x$}{\verb|\mathit{x}|}[斜体] & \verb|\mathit{x}| & italic & 斜体 \\
+\syms{$\mathsf x$}{\verb|\mathsf{x}|}[无衬线体] & \verb|\mathsf{x}| & sans serif & 无衬线体 \\
+\syms{$\mathtt x$}{\verb|\mathtt{x}|}[打字机体] & \verb|\mathtt{x}| & typewriter & 打字机体 \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\printindex
+
+\end{document}
